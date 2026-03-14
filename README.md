@@ -71,18 +71,4 @@ If your drop includes a `settings` payload, the app unlocks a Runtime Settings p
 
 This editor is intentionally conservative: mapped fields are editable, unknown bytes stay research-only until verified.
 
-## Reusable footer pattern (for your other editors)
-
-Use the same three-part footer structure in each project:
-- Identity: app name + version
-- Ownership: maintainer handle + updated date
-- Actions: `Repository`, `Issues`, and a short trust signal (`Local-Only Editing`)
-
-Recommended IDs to keep consistent across repos:
-- `footerVersion`
-- `footerAuthor`
-- `footerUpdated`
-- `footerRepo`
-- `footerIssues`
-
-This lets you reuse one CSS block and one HTML footer block everywhere, with only these values changed per project.
+Org process docs (repo creation + main page linking): see [`REPO_CREATION_INSTRUCTIONS.md`](REPO_CREATION_INSTRUCTIONS.md).
