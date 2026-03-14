@@ -94,6 +94,67 @@ function Wait-ServerReady {
   throw "Timed out waiting for local server at $Url"
 }
 
+function Trim-WhiteBottomBorder {
+  param(
+    [string]$ImagePath,
+    [int]$WhiteThreshold = 245,
+    [double]$RowWhiteRatio = 0.985,
+    [int]$SampleStep = 4,
+    [int]$MinHeight = 420
+  )
+
+  Add-Type -AssemblyName System.Drawing
+  $bitmap = $null
+  $cropped = $null
+  $tempPath = "$ImagePath.tmp.png"
+  try {
+    $bitmap = [System.Drawing.Bitmap]::FromFile($ImagePath)
+    $width = $bitmap.Width
+    $height = $bitmap.Height
+    $trimRows = 0
+
+    for ($y = $height - 1; $y -ge 0; $y--) {
+      $samples = 0
+      $whiteSamples = 0
+      for ($x = 0; $x -lt $width; $x += $SampleStep) {
+        $pixel = $bitmap.GetPixel($x, $y)
+        $samples++
+        if ($pixel.R -ge $WhiteThreshold -and $pixel.G -ge $WhiteThreshold -and $pixel.B -ge $WhiteThreshold) {
+          $whiteSamples++
+        }
+      }
+
+      if ($samples -eq 0) { break }
+      $ratio = $whiteSamples / $samples
+      if ($ratio -ge $RowWhiteRatio) {
+        $trimRows++
+      } else {
+        break
+      }
+    }
+
+    $newHeight = $height - $trimRows
+    if ($trimRows -gt 0 -and $newHeight -ge $MinHeight) {
+      $rect = [System.Drawing.Rectangle]::new(0, 0, $width, $newHeight)
+      $cropped = $bitmap.Clone($rect, $bitmap.PixelFormat)
+      $cropped.Save($tempPath, [System.Drawing.Imaging.ImageFormat]::Png)
+      $cropped.Dispose()
+      $cropped = $null
+      $bitmap.Dispose()
+      $bitmap = $null
+      Move-Item -Path $tempPath -Destination $ImagePath -Force
+      return $trimRows
+    }
+
+    return 0
+  }
+  finally {
+    if ($cropped) { $cropped.Dispose() }
+    if ($bitmap) { $bitmap.Dispose() }
+    if (Test-Path $tempPath) { Remove-Item -Path $tempPath -Force -ErrorAction SilentlyContinue }
+  }
+}
+
 $root = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $python = Get-PythonLauncher
 $browser = Get-BrowserPath
@@ -115,14 +176,19 @@ try {
   $shotArgs = @(
     "--headless",
     "--disable-gpu",
+    "--hide-scrollbars",
     "--virtual-time-budget=4000",
-    "--window-size=1600,1000",
+    "--window-size=1600,640",
     "--screenshot=$outputPath",
     $url
   )
   & $browser @shotArgs | Out-Null
   if (-not (Test-Path $outputPath)) {
     throw "Screenshot capture failed: $outputPath was not created."
+  }
+  $trimmedRows = Trim-WhiteBottomBorder -ImagePath $outputPath
+  if ($trimmedRows -gt 0) {
+    Write-Host "Trimmed $trimmedRows white border row(s) from screenshot." -ForegroundColor Yellow
   }
   Write-Host "Screenshot saved: $outputPath" -ForegroundColor Green
 }
