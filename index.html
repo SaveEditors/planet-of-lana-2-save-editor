@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Planet of Lana 2 - Save Editor</title>
   <style>
-    :root{--bg:#111111;--bg-soft:#1a1a1a;--panel:#0b0b0b;--panel-alt:#151515;--accent:#7c8a96;--accent-strong:#b9c2c9;--text:#f5f7f9;--text-dim:#9ca4ac;--line:rgba(255,255,255,.08);--good:#84c47d;--warn:#d7b26a;--bad:#d46a6a;--shadow:0 20px 40px rgba(0,0,0,.28);--glow:rgba(185,194,201,.16);--radius:16px;--radius-sm:10px;--font:"Segoe UI","Helvetica Neue",Arial,sans-serif}
+    :root{--bg:#0d1318;--bg-soft:#151e24;--panel:#0b1014;--panel-alt:#121920;--accent:#89b89c;--accent-strong:#c9e6d3;--text:#f2f6f9;--text-dim:#9ca8b2;--line:rgba(255,255,255,.1);--good:#87c97b;--warn:#dbbf77;--bad:#d87373;--shadow:0 20px 40px rgba(0,0,0,.34);--glow:rgba(137,184,156,.2);--radius:16px;--radius-sm:10px;--font:"Segoe UI","Helvetica Neue",Arial,sans-serif}
     *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:var(--font);color:var(--text);background:radial-gradient(circle at top right,rgba(255,255,255,.04),transparent 30%),radial-gradient(circle at bottom left,rgba(255,255,255,.03),transparent 25%),linear-gradient(135deg,color-mix(in srgb,var(--bg) 86%,#000 14%),var(--bg));transition:background .2s ease,color .2s ease}
     body:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(transparent 95%,rgba(255,255,255,.03) 100%),linear-gradient(90deg,transparent 95%,rgba(255,255,255,.02) 100%);background-size:100% 26px,26px 100%;opacity:.22;mix-blend-mode:soft-light}
     .app-shell{width:min(1600px,calc(100vw - 28px));margin:20px auto 40px;display:grid;gap:18px}
@@ -60,7 +60,9 @@
       100%{transform:translate(-50%,-50%) rotate(360deg) scale(1)}
     }
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    @media (max-width:1240px){.grid-main{grid-template-columns:1fr}}@media (max-width:900px){.field-row{grid-template-columns:1fr}.app-shell{width:min(100vw - 18px,1600px);margin-top:12px}.hero,.panel{padding:15px}}
+    .kofi-widget{position:fixed;right:18px;bottom:18px;z-index:60;padding:10px 14px;border-radius:999px;border:1px solid rgba(255,193,88,.7);background:linear-gradient(180deg,#ffe7ad,#ffd675);color:#34250e;text-decoration:none;font-weight:700;box-shadow:0 12px 24px rgba(0,0,0,.35)}
+    .kofi-widget:hover{transform:translateY(-1px)}
+    @media (max-width:1240px){.grid-main{grid-template-columns:1fr}}@media (max-width:900px){.field-row{grid-template-columns:1fr}.app-shell{width:min(100vw - 18px,1600px);margin-top:12px}.hero,.panel{padding:15px}.kofi-widget{right:12px;bottom:12px;font-size:.86rem;padding:9px 12px}}
   </style>
 </head>
 <body>
@@ -80,6 +82,7 @@
         <a id="footerIssues" href="https://github.com/SaveEditors/planet-of-lana-2-save-editor/issues" target="_blank" rel="noopener noreferrer" title="Report a bug or request a feature">Issues</a>
         <a href="https://saveeditors.github.io/" target="_blank" rel="noopener noreferrer" title="Open the homepage with all editors">All Editors Home</a>
         <a href="https://github.com/SaveEditors" target="_blank" rel="noopener noreferrer" title="Organization profile">SaveEditors Org</a>
+        <a href="https://ko-fi.com/saveeditors" target="_blank" rel="noopener noreferrer" title="Support SaveEditors on Ko-fi">Donate</a>
       </div>
     </header>
     <section class="hero">
@@ -146,6 +149,7 @@
       </div>
     </div>
   </div>
+  <a class="kofi-widget" href="https://ko-fi.com/saveeditors" target="_blank" rel="noopener noreferrer" aria-label="Support SaveEditors on Ko-fi">Buy Me A Coffee</a>
   <script>
     "use strict";
     const DARK_THEME={bg:"#111111",bgSoft:"#1a1a1a",panel:"#0b0b0b",panelAlt:"#151515",accent:"#7c8a96",accentStrong:"#b9c2c9",text:"#f5f7f9",textDim:"#9ca4ac",good:"#84c47d",warn:"#d7b26a",bad:"#d46a6a"};
