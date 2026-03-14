@@ -4,6 +4,8 @@
 
 A friendly save editor for `Planet of Lana II: Children of the Leaf` that runs locally in your browser or desktop shell.
 
+Use editor without downloading HERE: [`https://saveeditors.github.io/planet-of-lana-2-save-editor/`](https://saveeditors.github.io/planet-of-lana-2-save-editor/)
+
 All editors homepage: [`https://saveeditors.github.io/`](https://saveeditors.github.io/)
 
 ![Planet of Lana 2 Save Editor Screenshot](assets/readme-screenshot-app.png)

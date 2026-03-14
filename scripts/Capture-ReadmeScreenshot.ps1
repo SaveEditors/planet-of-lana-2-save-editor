@@ -99,8 +99,10 @@ function Trim-WhiteBottomBorder {
     [string]$ImagePath,
     [int]$WhiteThreshold = 245,
     [double]$RowWhiteRatio = 0.985,
+    [double]$ColumnWhiteRatio = 0.985,
     [int]$SampleStep = 4,
-    [int]$MinHeight = 420
+    [int]$MinHeight = 420,
+    [int]$MinWidth = 1000
   )
 
   Add-Type -AssemblyName System.Drawing
@@ -112,6 +114,7 @@ function Trim-WhiteBottomBorder {
     $width = $bitmap.Width
     $height = $bitmap.Height
     $trimRows = 0
+    $trimCols = 0
 
     for ($y = $height - 1; $y -ge 0; $y--) {
       $samples = 0
@@ -134,8 +137,39 @@ function Trim-WhiteBottomBorder {
     }
 
     $newHeight = $height - $trimRows
-    if ($trimRows -gt 0 -and $newHeight -ge $MinHeight) {
-      $rect = [System.Drawing.Rectangle]::new(0, 0, $width, $newHeight)
+    if ($newHeight -lt $MinHeight) {
+      $newHeight = $height
+      $trimRows = 0
+    }
+
+    for ($x = $width - 1; $x -ge 0; $x--) {
+      $samples = 0
+      $whiteSamples = 0
+      for ($y = 0; $y -lt $newHeight; $y += $SampleStep) {
+        $pixel = $bitmap.GetPixel($x, $y)
+        $samples++
+        if ($pixel.R -ge $WhiteThreshold -and $pixel.G -ge $WhiteThreshold -and $pixel.B -ge $WhiteThreshold) {
+          $whiteSamples++
+        }
+      }
+
+      if ($samples -eq 0) { break }
+      $ratio = $whiteSamples / $samples
+      if ($ratio -ge $ColumnWhiteRatio) {
+        $trimCols++
+      } else {
+        break
+      }
+    }
+
+    $newWidth = $width - $trimCols
+    if ($newWidth -lt $MinWidth) {
+      $newWidth = $width
+      $trimCols = 0
+    }
+
+    if (($trimRows -gt 0 -or $trimCols -gt 0) -and $newHeight -ge $MinHeight -and $newWidth -ge $MinWidth) {
+      $rect = [System.Drawing.Rectangle]::new(0, 0, $newWidth, $newHeight)
       $cropped = $bitmap.Clone($rect, $bitmap.PixelFormat)
       $cropped.Save($tempPath, [System.Drawing.Imaging.ImageFormat]::Png)
       $cropped.Dispose()
@@ -143,10 +177,10 @@ function Trim-WhiteBottomBorder {
       $bitmap.Dispose()
       $bitmap = $null
       Move-Item -Path $tempPath -Destination $ImagePath -Force
-      return $trimRows
+      return @{ Rows = $trimRows; Columns = $trimCols }
     }
 
-    return 0
+    return @{ Rows = 0; Columns = 0 }
   }
   finally {
     if ($cropped) { $cropped.Dispose() }
@@ -186,9 +220,9 @@ try {
   if (-not (Test-Path $outputPath)) {
     throw "Screenshot capture failed: $outputPath was not created."
   }
-  $trimmedRows = Trim-WhiteBottomBorder -ImagePath $outputPath
-  if ($trimmedRows -gt 0) {
-    Write-Host "Trimmed $trimmedRows white border row(s) from screenshot." -ForegroundColor Yellow
+  $trimResult = Trim-WhiteBottomBorder -ImagePath $outputPath
+  if ($trimResult.Rows -gt 0 -or $trimResult.Columns -gt 0) {
+    Write-Host "Trimmed white border from screenshot. Rows: $($trimResult.Rows), Columns: $($trimResult.Columns)." -ForegroundColor Yellow
   }
   Write-Host "Screenshot saved: $outputPath" -ForegroundColor Green
 }
