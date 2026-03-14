@@ -1,5 +1,7 @@
 # Planet of Lana 2 - Save Editor
 
+![Planet of Lana 2 - Save Editor Header](assets/readme-header.svg)
+
 Browser-first save editor for `Planet of Lana II: Children of the Leaf`.
 
 This project is meant to feel simple and friendly:
@@ -11,6 +13,8 @@ This project is meant to feel simple and friendly:
 Project checklist: see [`TODO.md`](TODO.md).
 
 All editors homepage: [`https://saveeditors.github.io/`](https://saveeditors.github.io/)
+
+![Planet of Lana 2 Save Editor Screenshot](assets/readme-screenshot.png)
 
 ## Project files
 
