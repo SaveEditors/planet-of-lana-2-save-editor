@@ -70,5 +70,3 @@ If your drop includes a `settings` payload, the app unlocks a Runtime Settings p
 ## Notes
 
 This editor is intentionally conservative: mapped fields are editable, unknown bytes stay research-only until verified.
-
-Org process docs (repo creation + main page linking): see [`REPO_CREATION_INSTRUCTIONS.md`](REPO_CREATION_INSTRUCTIONS.md).
