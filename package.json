@@ -1,0 +1,32 @@
+{
+  "name": "planet-of-lana-2-save-editor",
+  "version": "1.1.0",
+  "description": "Planet of Lana 2 - Save Editor desktop shell for the single-file HTML editor.",
+  "main": "main.js",
+  "author": "Codex",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^37.2.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.codex.planetoflana2saveeditor",
+    "productName": "Planet of Lana 2 - Save Editor",
+    "files": [
+      "index.html",
+      "main.js",
+      "preload.js",
+      "README.md",
+      "docs/**/*"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ]
+    }
+  }
+}
