@@ -2,13 +2,15 @@
 
 Browser-first save editor for `Planet of Lana II: Children of the Leaf`.
 
-This project is built to be practical:
+This project is meant to feel simple and friendly:
 - load a save or save folder
-- edit mapped fields with tooltips
+- change known values with clear labels and help text
 - export modified save + backup downloads in browser mode
 - optionally run the same UI in Electron for native file access
 
 Project checklist: see [`TODO.md`](TODO.md).
+
+All editors homepage: [`https://saveeditors.github.io/`](https://saveeditors.github.io/)
 
 ## Project files
 
