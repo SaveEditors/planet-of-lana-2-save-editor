@@ -1,6 +1,6 @@
 param(
   [int]$Port = 8799,
-  [string]$Output = "assets/readme-screenshot.png"
+  [string]$Output = "assets/readme-screenshot-app.png"
 )
 
 Set-StrictMode -Version Latest
