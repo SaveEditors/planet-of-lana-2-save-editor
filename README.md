@@ -1,7 +1,7 @@
 # Planet of Lana 2 - Save Editor
 
-
-<p align="center">
+![Planet of Lana 2 - Save Editor Header](assets/readme-header.svg)
+`r`n<p align="center">
   <img src="./GithubHeader.png" alt="Header" />
 </p>
 
@@ -55,6 +55,7 @@ Optional:
 - Unknown fields stay intentionally conservative until they are validated.
 
 What this does not do yet: it does not expose unsupported fields without stable mapping and safe write validation.
+
 
 
 
