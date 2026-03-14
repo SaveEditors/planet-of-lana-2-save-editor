@@ -45,19 +45,43 @@
     .log-panel{max-height:320px;overflow:auto;display:grid;gap:8px}.log-entry{padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel-alt);font-size:.9rem;line-height:1.45}.log-entry small{display:block;color:var(--text-dim);margin-top:6px}
     .warning-box,.empty-state{border:1px solid color-mix(in srgb,var(--warn) 36%,transparent);background:color-mix(in srgb,var(--warn) 9%,var(--panel-alt) 91%);color:var(--text);border-radius:12px;padding:12px 14px;line-height:1.5}.empty-state{border-color:var(--line);background:var(--panel-alt);color:var(--text-dim)}
     .path-block{display:grid;gap:10px}.path-card{padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--panel-alt)}.path-card strong{display:block;margin-bottom:8px;font-size:.9rem}.path-card code{display:block;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,.22);color:var(--accent-strong);overflow:auto}
-    .app-footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;padding:14px 18px;border:1px solid var(--line);border-radius:12px;background:var(--panel-alt);color:var(--text-dim);font-size:.84rem}
-    .app-footer strong{color:var(--text);font-weight:600}
-    .footer-meta{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
-    .footer-meta .sep{opacity:.5}
-    .footer-links{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-    .footer-links a{padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text-dim);text-decoration:none;transition:border-color .2s ease,box-shadow .2s ease,color .2s ease}
-    .footer-links a:hover{border-color:var(--accent);color:var(--text);box-shadow:0 0 0 3px var(--glow)}
+    .top-nav{position:relative;overflow:hidden;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;padding:18px 20px;min-height:84px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.01)),var(--panel-alt);box-shadow:var(--shadow)}
+    .top-nav:before{content:"";position:absolute;left:50%;top:50%;width:330px;height:330px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,255,255,.22) 0%,rgba(255,255,255,.08) 22%,rgba(255,255,255,0) 60%);filter:blur(14px);opacity:.32;animation:navGlowSpin 14s linear infinite;pointer-events:none}
+    .top-nav > *{position:relative;z-index:1}
+    .nav-meta{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+    .nav-meta strong{color:var(--text);font-weight:600}
+    .nav-sep{opacity:.5}
+    .nav-links{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .nav-links a{padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text-dim);text-decoration:none;transition:border-color .2s ease,box-shadow .2s ease,color .2s ease}
+    .nav-links a:hover{border-color:var(--accent);color:var(--text);box-shadow:0 0 0 3px var(--glow)}
+    @keyframes navGlowSpin{
+      0%{transform:translate(-50%,-50%) rotate(0deg) scale(1)}
+      50%{transform:translate(-50%,-50%) rotate(180deg) scale(1.05)}
+      100%{transform:translate(-50%,-50%) rotate(360deg) scale(1)}
+    }
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     @media (max-width:1240px){.grid-main{grid-template-columns:1fr}}@media (max-width:900px){.field-row{grid-template-columns:1fr}.app-shell{width:min(100vw - 18px,1600px);margin-top:12px}.hero,.panel{padding:15px}}
   </style>
 </head>
 <body>
   <div class="app-shell">
+    <header class="top-nav" aria-label="Editor header">
+      <div class="nav-meta">
+        <strong>Planet of Lana 2 - Save Editor</strong>
+        <span class="nav-sep">|</span>
+        <span>Version: <strong id="footerVersion">v1.0.0</strong></span>
+        <span class="nav-sep">|</span>
+        <span>Maintainer: <strong id="footerAuthor">@SaveEditors</strong></span>
+        <span class="nav-sep">|</span>
+        <span id="footerUpdated">Updated: March 2026</span>
+      </div>
+      <div class="nav-links">
+        <a id="footerRepo" href="https://github.com/SaveEditors/planet-of-lana-2-save-editor" target="_blank" rel="noopener noreferrer" title="Open the project repository">Repository</a>
+        <a id="footerIssues" href="https://github.com/SaveEditors/planet-of-lana-2-save-editor/issues" target="_blank" rel="noopener noreferrer" title="Report a bug or request a feature">Issues</a>
+        <a href="https://saveeditors.github.io/" target="_blank" rel="noopener noreferrer" title="Open the homepage with all editors">All Editors Home</a>
+        <a href="https://github.com/SaveEditors" target="_blank" rel="noopener noreferrer" title="Organization profile">SaveEditors Org</a>
+      </div>
+    </header>
     <section class="hero">
       <div class="hero-top">
         <div class="title-block">
@@ -121,23 +145,6 @@
         <section class="panel"><div class="panel-header"><div><h2>Deployment Note</h2><p>Ready for GitHub Pages, with an optional Electron shell for desktop use.</p></div></div><div class="warning-box">This repo is intentionally portable: no hardcoded machine paths, all relative assets, and browser-safe backup/export behavior.</div><div class="path-block"><div class="path-card"><strong>Steam Default Save Path</strong><code>%USERPROFILE%\AppData\LocalLow\Wishfully\Planet of Lana 2\*.sav</code></div><div class="path-card"><strong>Game Pass / Microsoft Store Save Root</strong><code>%LOCALAPPDATA%\Packages\&lt;Planet of Lana II package family&gt;\SystemAppData\wgs\</code></div></div><p class="footer-note">Steam and Game Pass folders are shown as defaults only. The editor accepts dropped files/folders so it works across different package IDs and installations.</p><p class="footer-note">Use the included Electron wrapper when you want native file dialogs and direct backup writes next to the source save.</p></section>
       </div>
     </div>
-    <footer class="app-footer" aria-label="Editor footer">
-      <div class="footer-meta">
-        <strong>Planet of Lana 2 - Save Editor</strong>
-        <span class="sep">|</span>
-        <span>Version: <strong id="footerVersion">v1.0.0</strong></span>
-        <span class="sep">|</span>
-        <span>Maintainer: <strong id="footerAuthor">@SaveEditors</strong></span>
-        <span class="sep">|</span>
-        <span id="footerUpdated">Updated: March 2026</span>
-      </div>
-      <div class="footer-links">
-        <a id="footerRepo" href="https://github.com/SaveEditors/planet-of-lana-2-save-editor" target="_blank" rel="noopener noreferrer" title="Open the project repository">Repository</a>
-        <a id="footerIssues" href="https://github.com/SaveEditors/planet-of-lana-2-save-editor/issues" target="_blank" rel="noopener noreferrer" title="Report a bug or request a feature">Issues</a>
-        <a href="https://saveeditors.github.io/" target="_blank" rel="noopener noreferrer" title="Open the homepage with all editors">All Editors Home</a>
-        <a href="https://github.com/SaveEditors" target="_blank" rel="noopener noreferrer" title="Organization profile">SaveEditors Org</a>
-      </div>
-    </footer>
   </div>
   <script>
     "use strict";

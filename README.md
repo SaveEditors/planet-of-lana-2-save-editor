@@ -2,28 +2,28 @@
 
 ![Planet of Lana 2 - Save Editor Header](assets/readme-header.svg)
 
-Browser-first save editor for `Planet of Lana II: Children of the Leaf`.
-
-This project is meant to feel simple and friendly:
-- load a save or save folder
-- change known values with clear labels and help text
-- export modified save + backup downloads in browser mode
-- optionally run the same UI in Electron for native file access
-
-Project checklist: see [`TODO.md`](TODO.md).
+A friendly save editor for `Planet of Lana II: Children of the Leaf` that runs locally in your browser or desktop shell.
 
 All editors homepage: [`https://saveeditors.github.io/`](https://saveeditors.github.io/)
 
 ![Planet of Lana 2 Save Editor Screenshot](assets/readme-screenshot.png)
 
-## Project files
+## What You Can Edit Right Now
 
-- `index.html`: Main app (single file, GitHub Pages friendly)
-- `main.js` / `preload.js`: Electron wrapper around the same app
-- `package.json`: Desktop scripts/build config
-- `Start-PlanetLana2SaveEditor.ps1`: One-command launcher (`web`, `electron`, `build`)
+- Story progression: current chapter, current scene, and record chapter/scene values.
+- Position data: current and record map coordinates (`x/y`) through fields and draggable map markers.
+- Journal progression: known journal GUID entries, objective marker GUID, and GUID payload list editor.
+- Mui bond/progression: the full parsed Mui boolean progression array.
+- Core slot stats: playtime, deaths, timestamp, story flag, version, slot index.
+- Runtime settings (when `settings` file is present): debug/menu related toggles, input sensitivity/deadzone, graphics flags, locale/UI mode.
 
-## Quick start (PowerShell)
+## Not Confirmed / Not Exposed Yet
+
+- Coins, currency, XP, or level-up economy systems are not currently mapped in this game’s save format here.
+- A standalone “inventory class” is not confirmed yet; progression is currently driven mostly by journal GUID payload + Mui array + mapped slot/story fields.
+- Unknown byte regions are shown for research but kept out of normal editing.
+
+## Quick Start (PowerShell)
 
 Run from this folder:
 
@@ -36,43 +36,22 @@ Optional:
 - Change port: `.\Start-PlanetLana2SaveEditor.ps1 -Mode web -Port 9000`
 - Don’t auto-open browser: `.\Start-PlanetLana2SaveEditor.ps1 -Mode web -NoOpen`
 
-## GitHub Pages
-
-Use this folder as the repo root. No machine-specific paths are required.
-
-- Browser backups/exports are downloads (browser sandbox limitation).
-- Electron mode supports native dialogs and in-place backup writes.
-
-## Default save paths (Windows)
+## Save Paths (Windows)
 
 - Steam: `%USERPROFILE%\AppData\LocalLow\Wishfully\Planet of Lana 2\*.sav`
 - Game Pass / Microsoft Store: `%LOCALAPPDATA%\Packages\<Planet of Lana II package family>\SystemAppData\wgs\`
 
-Package-family folder names vary per Store install, so the editor accepts any dropped file/folder and auto-detects candidates.
+## Project Files
 
-## Format coverage
-
-Current parser coverage includes:
-- `PoL.Progress.GameplaySlot`
-- `PoL.Progress.GameplayLocation`
-- `PoL.Progress.GameplayJournal`
-- `PoL.Progress.GameplayPetMui`
-- `System.Collections.Generic.List<string>`
-
-## Inventory and GUIDs
-
-There is no confirmed standalone inventory class yet in the current save set.  
-Inventory-like progression is currently driven by:
-- journal GUID payload (`List<string>`)
-- Mui progression array
-- mapped story/progress fields
-
-The app resolves known GUIDs into readable labels and keeps unknown data clearly marked.
-
-## Settings support
-
-If your drop includes a `settings` payload, the app unlocks a Runtime Settings panel and preserves prefix/suffix bytes when exporting.
+- `index.html`: main app (single-file, GitHub Pages friendly)
+- `main.js` / `preload.js`: Electron wrapper for local file dialogs/writes
+- `Start-PlanetLana2SaveEditor.ps1`: one-command launcher (`web`, `electron`, `build`)
+- `scripts/Capture-ReadmeScreenshot.ps1`: refreshes README screenshot from a live run
 
 ## Notes
 
-This editor is intentionally conservative: mapped fields are editable, unknown bytes stay research-only until verified.
+- Browser backups/exports are download-based due browser sandbox limits.
+- Desktop mode can write backups beside the source save.
+- Unknown fields stay intentionally conservative until they are validated.
+
+Project checklist: see [`TODO.md`](TODO.md).
