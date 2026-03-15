@@ -1,9 +1,6 @@
 # Planet of Lana 2 - Save Editor
 
 ![Planet of Lana 2 - Save Editor Header](assets/readme-header.svg)
-`r`n<p align="center">
-  <img src="./GithubHeader.png" alt="Header" />
-</p>
 
 A friendly save editor for `Planet of Lana II: Children of the Leaf` that runs locally in your browser or desktop shell.
 
