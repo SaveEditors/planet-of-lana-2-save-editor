@@ -1,6 +1,7 @@
 # Planet of Lana 2 - Save Editor
 
 ![Planet of Lana 2 - Save Editor Header](assets/readme-header.svg)
+![Planet of Lana 2 - Game Art](gameart.png)
 
 A friendly save editor for `Planet of Lana II: Children of the Leaf` that runs locally in your browser or desktop shell.
 
