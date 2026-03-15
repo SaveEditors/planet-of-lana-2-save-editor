@@ -49,7 +49,13 @@
     .hex-view{max-height:430px;overflow:auto;border:1px solid var(--line);border-radius:12px;background:#0d1117;color:#d1d9e0;font-family:Consolas,"Courier New",monospace;font-size:.86rem;line-height:1.5;padding:12px}.hex-row{white-space:pre;display:block}.hex-match{background:rgba(255,214,102,.26);color:#fff3c2;border-radius:3px}
     .log-panel{max-height:320px;overflow:auto;display:grid;gap:8px}.log-entry{padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel-alt);font-size:.9rem;line-height:1.45}.log-entry small{display:block;color:var(--text-dim);margin-top:6px}
     .warning-box,.empty-state{border:1px solid color-mix(in srgb,var(--warn) 36%,transparent);background:color-mix(in srgb,var(--warn) 9%,var(--panel-alt) 91%);color:var(--text);border-radius:12px;padding:12px 14px;line-height:1.5}.empty-state{border-color:var(--line);background:var(--panel-alt);color:var(--text-dim)}
-    .path-block{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}.path-card{padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--panel-alt)}.path-card strong{display:block;margin-bottom:8px;font-size:.9rem}.path-card code{display:block;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,.22);color:var(--accent-strong);overflow:auto}.save-path-hints{max-width:920px}
+    .save-locations{max-width:920px;display:grid;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.08)),var(--panel-alt)}
+    .save-locations-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}
+    .save-locations-head strong{font-size:.86rem;letter-spacing:.06em;text-transform:uppercase}
+    .save-locations-head span{color:var(--text-dim);font-size:.8rem}
+    .save-location-row{display:grid;grid-template-columns:280px minmax(0,1fr);gap:10px;align-items:center}
+    .save-location-row .label{color:var(--text);font-size:.88rem;font-weight:600}
+    .save-location-row code{display:block;padding:9px 10px;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.22);color:var(--accent-strong);font-size:.78rem;line-height:1.45;white-space:nowrap;overflow-x:auto}
     .top-nav{position:relative;overflow:hidden;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;padding:18px 20px;min-height:84px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.01)),var(--panel-alt);box-shadow:var(--shadow)}
     .top-nav:before{content:"";position:absolute;left:50%;top:50%;width:330px;height:330px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,255,255,.22) 0%,rgba(255,255,255,.08) 22%,rgba(255,255,255,0) 60%);filter:blur(14px);opacity:.32;animation:navGlowSpin 14s linear infinite;pointer-events:none}
     .top-nav > *{position:relative;z-index:1}
@@ -73,7 +79,7 @@
     .hero-top{position:relative;padding-right:280px;min-height:0}
     .hero-art-card{position:absolute;right:0;top:0;min-width:240px;max-width:240px;width:240px;padding:10px}
     .hero-art-card img{height:330px;object-fit:cover}
-    .status-strip,.io-row,.save-path-hints,.drop-zone,.progress-wrap,.button-row,.backup-row{max-width:920px}
+    .status-strip,.io-row,.save-locations,.drop-zone,.progress-wrap,.button-row,.backup-row{max-width:920px}
     .drop-zone{padding:16px 18px}
     .drop-zone strong{font-size:.98rem}
     .drop-zone,.progress-wrap{margin-top:2px}
@@ -82,7 +88,8 @@
       .hero-top{padding-right:0}
       .hero-art-card{position:static;width:min(220px,100%);max-width:220px;min-width:0;padding:8px}
       .hero-art-card img{height:auto}
-      .status-strip,.io-row,.save-path-hints,.drop-zone,.progress-wrap,.button-row,.backup-row{max-width:100%}
+      .status-strip,.io-row,.save-locations,.drop-zone,.progress-wrap,.button-row,.backup-row{max-width:100%}
+      .save-location-row{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -131,17 +138,20 @@
         <input id="folderInput" class="sr-only" type="file" webkitdirectory directory multiple>
         <div id="shellModeNote" class="pill-note" title="Browsers cannot write beside the original file. In Electron, the same app can create real backups next to the source save.">Browser-safe backup mode</div>
       </div>
-      <div class="path-block save-path-hints">
-        <div class="path-card">
-          <strong>Steam Save Path (Default)</strong>
+      <div class="save-locations" aria-label="Common save locations">
+        <div class="save-locations-head">
+          <strong>Save Locations (Windows)</strong>
+          <span>Defaults only. If yours is different, browse your own save/folder.</span>
+        </div>
+        <div class="save-location-row">
+          <div class="label">Steam (default)</div>
           <code>%USERPROFILE%\AppData\LocalLow\Wishfully\Planet of Lana 2\*.sav</code>
         </div>
-        <div class="path-card">
-          <strong>Game Pass / Microsoft Store Save Root (Default)</strong>
+        <div class="save-location-row">
+          <div class="label">Game Pass / Microsoft Store (default)</div>
           <code>%LOCALAPPDATA%\Packages\&lt;Planet of Lana II package family&gt;\SystemAppData\wgs\</code>
         </div>
       </div>
-      <p class="footer-note">Default paths only. If your install location is different, browse your own save file or folder.</p>
       <div id="dropZone" class="drop-zone" tabindex="0">
         <strong>Drop any `.sav`, WGS container file, or an entire save folder here</strong>
         The editor will scan what you dropped, pick the gameplay slot, create backups, and open it for editing.
@@ -182,7 +192,7 @@
         <section class="panel"><div class="panel-header"><div><h2>Planet Map</h2><p>Drag the current and record markers to update the corresponding location fields. Coordinates are normalized from the save itself.</p></div></div><div class="canvas-shell"><canvas id="mapCanvas" height="320"></canvas></div><div class="map-help">If the save exposes more coordinate fields later, the map refreshes live when discovered fields are edited.</div></section>
         <section class="panel"><div class="panel-header"><div><h2>Memory Snapshot</h2><p>Embedded image fragments are scanned for PNG and JPEG markers inside the loaded payload.</p></div></div><div id="snapshotWrap" class="snapshot-wrap"><div class="snapshot-empty">No embedded screenshot found in the current save.</div></div></section>
         <section class="panel"><div class="panel-header"><div><h2>Editor Log</h2><p>Every decode attempt, parser discovery, and edit operation is recorded here.</p></div></div><div id="logPanel" class="log-panel"></div></section>
-        <section class="panel"><div class="panel-header"><div><h2>Deployment Note</h2><p>Ready for GitHub Pages, with an optional Electron shell for desktop use.</p></div></div><div class="warning-box">This repo is intentionally portable: no hardcoded machine paths, all relative assets, and browser-safe backup/export behavior.</div><p class="footer-note">Save path defaults are shown next to the browse controls above.</p><p class="footer-note">Use the included Electron wrapper when you want native file dialogs and direct backup writes next to the source save.</p></section>
+        <section class="panel"><div class="panel-header"><div><h2>Deployment Note</h2><p>Ready for GitHub Pages, with an optional Electron shell for desktop use.</p></div></div><div class="warning-box">This repo is intentionally portable: no hardcoded machine paths, all relative assets, and browser-safe backup/export behavior.</div><p class="footer-note">Use the included Electron wrapper when you want native file dialogs and direct backup writes next to the source save.</p></section>
       </div>
     </div>
   </div>
